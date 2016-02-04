@@ -1,0 +1,14 @@
+{
+  "name": "find_a_writer",
+  "version": "1.0.0",
+  "description": "Application that transforms random text into names",
+  "main": "one",
+  "scripts": {
+    "test": "one"
+  },
+  "author": "Daler Asrorov",
+  "license": "ISC",
+  "dependencies": {
+    "fs": "0.0.2"
+  }
+}

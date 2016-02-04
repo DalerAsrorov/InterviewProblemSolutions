@@ -1,0 +1,20 @@
+module.js:339
+    throw err;
+    ^
+
+Error: Cannot find module '/Users/daler/Desktop/Projects/FindAWriter/firstWriter.js'
+    at Function.Module._resolveFilename (module.js:337:15)
+    at Function.Module._load (module.js:287:25)
+    at Function.Module.runMain (module.js:467:10)
+    at startup (node.js:134:18)
+    at node.js:961:3
+module.js:339
+    throw err;
+    ^
+
+Error: Cannot find module '/Users/daler/Desktop/Projects/FindAWriter/firstWriter.js'
+    at Function.Module._resolveFilename (module.js:337:15)
+    at Function.Module._load (module.js:287:25)
+    at Function.Module.runMain (module.js:467:10)
+    at startup (node.js:134:18)
+    at node.js:961:3
