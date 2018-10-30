@@ -25,7 +25,6 @@ const formStringRanges = (listOfRangeTulpes, listOfNumbers) => {
 
 const generateRanges = listOfNumbers => {
   const len = listOfNumbers.length;
-  let result = [];
   let listOfRangeTulpes = [];
   let lastEnd = len,
     lastStart = 0;
