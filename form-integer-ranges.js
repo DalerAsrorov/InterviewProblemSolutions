@@ -30,7 +30,7 @@ const generateRanges = listOfNumbers => {
   let lastEnd = len,
     lastStart = 0;
 
-  while (lastStart < len) {
+  while (lastStart < lastEnd) {
     for (let j = lastStart; j < lastEnd; j++) {
       let curr = listOfNumbers[j];
       let next = listOfNumbers[j + 1];
