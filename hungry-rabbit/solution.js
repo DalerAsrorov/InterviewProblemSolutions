@@ -19,20 +19,16 @@ const getCenterList = size => {
 const getCenterMax = (matrix, nCols, nRows) => {
   let xCenters = getCenterList(nCols);
   let yCenters = getCenterList(nRows);
-  let x, y;
   let xMaxCoord = xCenters[0],
     yMaxCoord = yCenters[0];
-
   let max = getValueAt(matrix, xMaxCoord, yMaxCoord);
-  let vals = [];
 
   for (let j = 0; j < yCenters.length; j++) {
-    y = yCenters[j];
     for (let i = 0; i < xCenters.length; i++) {
-      x = xCenters[i];
-      if (max < getValueAt(matrix, x, y)) {
-        max = getValueAt(matrix, x, y);
-        [xMaxCoord, yMaxCoord] = [x, y];
+      const valueAtCoord = getValueAt(matrix, xCenters[i], yCenters[j]);
+      if (max < valueAtCoord) {
+        max = valueAtCoord;
+        [xMaxCoord, yMaxCoord] = [xCenters[i], yCenters[j]];
       }
     }
   }
