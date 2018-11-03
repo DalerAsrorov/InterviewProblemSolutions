@@ -1,0 +1,1 @@
+![Problem condition](./problem.png)
