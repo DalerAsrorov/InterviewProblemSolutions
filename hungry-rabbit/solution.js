@@ -73,7 +73,7 @@ const calculateEatenCarrots = matrix => {
     const steps = [stepUp, stepDown, stepLeft, stepRight];
     const maxData = getNextMaxStep(matrix, steps);
 
-    // set the value of the taken carrots to 0
+    // set the value of the square with taken carrots to 0
     matrix[y][x] = 0;
 
     x = maxData[0];
