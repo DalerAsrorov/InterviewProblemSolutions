@@ -16,9 +16,12 @@ const getCenterList = size => {
   return centers;
 };
 
-const getMaxCenter = (matrix, nCols, nRows) => {
-  const xCenters = getCenterList(nCols);
-  const yCenters = getCenterList(nRows);
+// If matrix does not have exact center, this function
+// returns coordinate of the square closest to the center
+// with the highest number of carrots
+const getMaxCenterCoords = (matrix, nCols, nRows) => {
+  let xCenters = getCenterList(nCols);
+  let yCenters = getCenterList(nRows);
   let xMaxCoord = xCenters[0],
     yMaxCoord = yCenters[0];
   let max = getValueAt(matrix, xMaxCoord, yMaxCoord);
@@ -53,7 +56,7 @@ const getNextMaxStep = (matrix, steps) =>
 const calculateEatenCarrots = matrix => {
   const nRows = matrix.length;
   const nCols = matrix[0].length;
-  let { x, y } = getCenterMax(matrix, nCols, nRows);
+  let { x, y } = getMaxCenterCoords(matrix, nCols, nRows);
   let isAsleep = false;
   let sum = 0;
 
