@@ -16,9 +16,9 @@ const getCenterList = size => {
   return centers;
 };
 
-const getCenterMax = (matrix, nCols, nRows) => {
-  let xCenters = getCenterList(nCols);
-  let yCenters = getCenterList(nRows);
+const getMaxCenter = (matrix, nCols, nRows) => {
+  const xCenters = getCenterList(nCols);
+  const yCenters = getCenterList(nRows);
   let xMaxCoord = xCenters[0],
     yMaxCoord = yCenters[0];
   let max = getValueAt(matrix, xMaxCoord, yMaxCoord);
