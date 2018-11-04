@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Minesweeper</title>
+</head>
+
+<body>
+    <div id="mineSweeperGame" />
+
+    <script>
+        const N_ROWS = 4;
+        const N_COLS = 4;
+        let gameContainer = document.getElementById('mineSweeperGame');
+        let gridContainer = document.createElement('div');
+        let grid = [];
+
+        // prepare grid container
+        gridContainer.setAttribute('style', 'display: flex; flex-direction: column;');
+        gameContainer.append(gridContainer);
+
+        function Tile({ x, y, node, isOpen = false, hasBomb = false } = {}) {
+            this.x = x;
+            this.y = y;
+            this.node = node;
+            this.isOpen = isOpen;
+            this.hasBomb = hasBomb;
+        }
+        Tile.prototype.getElement = function () {
+            return this.node;
+        }
+        Tile.prototype.getPosition = function () {
+            return {
+                x: this.x,
+                y: this.y
+            }
+        }
+
+        function applyRowStyle(rowDomElement) {
+            rowDomElement.setAttribute('style', 'display: flex; flex-direction: row;')
+        }
+        function renderTiles(grid) {
+            let row = document.createElement('div');
+
+            applyRowStyle(row);
+
+            for (let i = 1; i <= grid.length; i++) {
+                row.append(grid[i - 1].getElement());
+
+                if (i % N_COLS === 0) {
+                    gridContainer.append(row);
+                    row = document.createElement('div');
+                    applyRowStyle(row);
+                }
+            }
+        }
+        function initializeTiles({ rows, columns, gridData }) {
+            for (let i = 0; i < rows; i++) {
+                for (let j = 0; j < columns; j++) {
+                    let el = document.createElement('div');
+
+                    el.setAttribute('style', 'flex: 1; background: red; border: 1px solid grey; height: 100px;');
+                    gridData.push(new Tile({
+                        x: j,
+                        y: i,
+                        node: el,
+                    }));
+                }
+            }
+
+            // initialize event listeners
+            // for (let i = 0; i < gridData.length; i++) {
+            //     let tile = gridData[i];
+            //     tile.getElement().addEventListener('click', function () {
+            //         console.log(this, tile);
+            //     });
+            // }
+        }
+
+        initializeTiles({
+            rows: N_ROWS,
+            columns: N_COLS,
+            gridData: grid
+        });
+        renderTiles(grid);
+    </script>
+</body>
+
+</html>
