@@ -11,6 +11,7 @@
             height: 100%;
             width: 100%;
             margin: 0;
+            position: relative;
         }
 
         #app {
@@ -18,6 +19,24 @@
             width: 100%;
             display: flex;
             flex-flow: column;
+            justify-content: center;
+        }
+
+        #rowValue {
+            width: 200px;
+        }
+
+        #inputSection {
+            padding: 10px;
+            border: 2px dotted red;
+            position: fixed;
+            left: 50px;
+            bottom: 50px;
+        }
+
+        #inputSection > * {
+            height: 100%;
+            font-size: 22px;
         }
     </style>
 </head>
@@ -25,12 +44,10 @@
     <section>
         <div id="app"/>
     </section>
-    <section>
-        <div>
-            <label>Number of rows</label>
-            <input style="width: 200px" id="rowValue" type="number" min="0" max="50" />
-            <button id="rowGenerator">Generate</button>
-        </div>
+    <section id="inputSection">
+        <label>Number of rows</label>
+        <input id="rowValue" type="number" min="0" max="50" />
+        <button id="rowGenerator">Generate</button>
     </section>
 
     <script src="index.js"></script>
