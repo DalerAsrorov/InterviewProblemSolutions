@@ -6,7 +6,7 @@ const VALUE_MEANING_MAP = {
   block: 0
 };
 
-const createKey = (i, j) => `${i},${j}`;
+const copy = js => JSON.parse(JSON.stringify(js));
 const peek = stack => stack[stack.length - 1];
 const getAllPossibleSteps = ({ area, step }) => {
   const [i, j] = step;
@@ -54,6 +54,7 @@ const getOptimalStepCoords = ({ area, steps, end }) => {
   return coords;
 };
 
+// Implementation
 const findShortestPath = areaMatrix => {
   const M = areaMatrix.length;
   const N = areaMatrix[0].length;
@@ -70,7 +71,7 @@ const findShortestPath = areaMatrix => {
 
   // start
   let stack = [start];
-  let area = [...areaMatrix];
+  let area = copy(areaMatrix);
   let wasFound = false;
   let nextStep = [];
 
