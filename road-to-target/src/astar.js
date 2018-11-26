@@ -36,10 +36,10 @@ module.exports = class AStar {
     let curr = currentNode;
     let trace = [];
 
-    while (curr.parent) {
+    while (curr) {
+      console.log(curr.position);
       trace.push(curr);
       curr = curr.parent;
-      console.log(curr.position);
     }
 
     return trace.reverse();

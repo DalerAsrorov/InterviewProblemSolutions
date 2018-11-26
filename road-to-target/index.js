@@ -77,14 +77,27 @@ pathButton.onclick = event => {
 
   const path = aStar.search([x1, y1], [x2, y2]);
 
-  path.forEach(node => {
-    const {
-      position: { x, y }
-    } = node;
+  tracePath({ path, x1, y1 });
+};
 
-    let element = getNodeElement({ x, y });
-    element.style.backgroundColor = 'lightblue';
-  });
+const tracePath = ({ path, x1, y1 }) => {
+  const N = path.length - 1;
+
+  // debugger;
+  (function loop(i) {
+    setTimeout(() => {
+      const {
+        position: { x, y }
+      } = path[i];
+
+      let element = getNodeElement({ x, y });
+      element.style.backgroundColor = 'lightblue';
+      if (i < N) {
+        i++;
+        loop(i);
+      }
+    }, 1500);
+  })(0);
 };
 
 const getNodeElement = ({ x, y, attr = DATA_ATTR } = {}) => {
