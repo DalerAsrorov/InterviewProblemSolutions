@@ -2,7 +2,7 @@ import AStar from './src/astar';
 import generateGrid from './src/generate-grid';
 import generateObstacles from './src/generate-obstacles';
 
-const aStar = new AStar();
+let aStar = new AStar();
 
 const ROW_STYLE = () => 'flex: 1; display: flex; flex-flow: column;';
 const COLUMN_STYLE = ({
@@ -22,6 +22,8 @@ const pathButton = document.getElementById('pathHandler');
 const createGrid = (columns, rows, containerNode, obstacles) => {
   const grid = generateGrid(columns, rows);
   generateObstacles(grid, obstacles);
+  aStar.init(grid);
+
   let gridStr = '';
 
   for (let y = 0; y < columns; y++) {
@@ -69,4 +71,8 @@ pathButton.onclick = event => {
   const y1 = Number(y1Input);
   const x2 = Number(x2Input);
   const y2 = Number(y2Input);
+
+  const path = aStar.search([x1, y1], [x2, y2]);
+
+  console.log({ path });
 };

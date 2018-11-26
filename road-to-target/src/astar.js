@@ -9,7 +9,13 @@ module.exports = class AStar {
     }
   }
 
+  isEmpty() {
+    return this.grid ? this.grid.length > 0 : true;
+  }
+
   init(originalGrid) {
+    this.grid = this.isEmpty() ? this.clone(originalGrid) : this.grid;
+
     const rows = this.getRows();
     const columns = this.getColumns();
 
