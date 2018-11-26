@@ -2,7 +2,7 @@ import AStar from './src/astar';
 import generateGrid from './src/generate-grid';
 import generateObstacles from './src/generate-obstacles';
 
-let aStar = new AStar();
+const DATA_ATTR = 'data-coords';
 
 const ROW_STYLE = () => 'flex: 1; display: flex; flex-flow: column;';
 const COLUMN_STYLE = ({
@@ -19,6 +19,9 @@ const form = document.getElementById('rowColumnForm');
 const grid = document.getElementById('grid');
 const pathButton = document.getElementById('pathHandler');
 
+// initialiaze aStar instance
+let aStar = new AStar();
+
 const createGrid = (columns, rows, containerNode, obstacles) => {
   const grid = generateGrid(columns, rows);
   generateObstacles(grid, obstacles);
@@ -32,7 +35,7 @@ const createGrid = (columns, rows, containerNode, obstacles) => {
       const element = grid[x][y];
       const isObstacle = element === 0;
 
-      rowStr += `<article style="${COLUMN_STYLE({
+      rowStr += `<article ${DATA_ATTR}="${y},${x}" style="${COLUMN_STYLE({
         isObstacle
       })}" class="column"></article>`;
     }
@@ -74,5 +77,29 @@ pathButton.onclick = event => {
 
   const path = aStar.search([x1, y1], [x2, y2]);
 
-  console.log({ path });
+  path.forEach(node => {
+    const {
+      position: { x, y }
+    } = node;
+
+    let element = getNodeElement({ x, y });
+    element.style.backgroundColor = 'lightblue';
+  });
+};
+
+const getNodeElement = ({ x, y, attr = DATA_ATTR } = {}) => {
+  const nodes = document.getElementsByClassName('column');
+
+  for (let i = 0; i < nodes.length; i++) {
+    const coordAttribute = nodes[i].getAttribute(attr);
+    const [xCoord, yCoord] = coordAttribute
+      .split(',')
+      .map(strNum => parseInt(strNum));
+
+    if (x === xCoord && y === yCoord) {
+      return nodes[i];
+    }
+  }
+
+  return null;
 };
