@@ -1,0 +1,16 @@
+{
+  "name": "A-Star",
+  "version": "1.0.0",
+  "description": "Implementation of A star algorithm with interactive grid and path finding.",
+  "main": "index.js",
+  "author": "Daler Asrorov",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "build": "webpack"
+  },
+  "devDependencies": {
+    "webpack": "^4.26.1",
+    "webpack-cli": "^3.1.2"
+  }
+}
