@@ -50,7 +50,50 @@ module.exports = class AStar {
     const startNode = this.grid[y1][x1];
     const endNode = this.grid[y2][x2];
 
-    console.log({ startNode, endNode });
+    let neighbors = this.getNeighbors(startNode);
+  }
+
+  getNeighbors(node) {
+    const { x, y } = node.position;
+    let neighbors = [];
+
+    // left
+    if (this.grid[y] && this.grid[y][x - 1]) {
+      neighbors.push(this.grid[y][x - 1]);
+    }
+    // right
+    if (this.grid[y] && this.grid[y][x + 1]) {
+      neighbors.push(this.grid[y][x + 1]);
+    }
+    // up
+    if (this.grid[y - 1] && this.grid[y - 1][x]) {
+      neighbors.push(this.grid[y - 1][x]);
+    }
+    // down
+    if (this.grid[y + 1] && this.grid[y + 1][x]) {
+      neighbors.push(this.grid[y + 1][x]);
+    }
+
+    // diagonals
+
+    // up-left
+    if (this.grid[y - 1] && this.grid[y - 1][x - 1]) {
+      neighbors.push(this.grid[y - 1][x - 1]);
+    }
+    // up-right
+    if (this.grid[y - 1] && this.grid[y - 1][x + 1]) {
+      neighbors.push(this.grid[y - 1][x + 1]);
+    }
+    // down-left
+    if (this.grid[y + 1] && this.grid[y + 1][x - 1]) {
+      neighbors.push(this.grid[y + 1][x - 1]);
+    }
+    // down-right
+    if (this.grid[y + 1] && this.grid[y + 1][x + 1]) {
+      neighbors.push(this.grid[y + 1][x + 1]);
+    }
+
+    return neighbors;
   }
 
   clone(object) {
