@@ -7,6 +7,19 @@ module.exports = class AStar {
     this.init(grid);
   }
 
+  getTrace(currentNode) {
+    let curr = currentNode;
+    let trace = [];
+
+    while (curr.parent) {
+      trace.push(curr);
+      curr = curr.parent;
+      console.log(curr.position);
+    }
+
+    return trace.reverse();
+  }
+
   getRows() {
     return this.grid.length;
   }
@@ -44,17 +57,100 @@ module.exports = class AStar {
     }
   }
 
-  search(start, destination) {
+  search(start, target) {
+    this._validateInputs(start, target);
+
     const [x1, y1] = start;
-    const [x2, y2] = destination;
+    const [x2, y2] = target;
     const startNode = this.grid[y1][x1];
-    const endNode = this.grid[y2][x2];
+    const targetNode = this.grid[y2][x2];
     let openList = [];
     let closeList = [];
 
-    // while (openList.length > 0) {
+    // add the start node to OPEN list
+    openList.push(startNode);
 
-    // }
+    while (openList.length > 0) {
+      let lowestFxNodeIndex = 0;
+
+      for (let i = 0; i < openList.length; i++) {
+        if (openList[i].f < openList[lowestFxNodeIndex].f) {
+          lowestFxNodeIndex = i;
+        }
+      }
+
+      let currentNode = openList[lowestFxNodeIndex];
+
+      // remove current from OPEN list
+      this.removeGraphNode(openList, currentNode);
+      // add current to CLOSE list
+      closeList.push(currentNode);
+
+      // if current node is equal to target node
+      // return the path trace
+      if (this.areNodesEqual(currentNode, targetNode)) {
+        return this.getTrace(currentNode);
+      }
+
+      const neighbors = this.getNeighbors(currentNode);
+
+      for (let i = 0; i < neighbors.length; i++) {
+        let neighbor = neighbors[i];
+
+        // if neighbor is not traversable or in CLOSE list, skip it
+        if (this.findNode(closeList, neighbor) || this.isObstacle(neighbor)) {
+          continue;
+        }
+
+        let gScore = currentNode.g + 1;
+        let isOptimalScore = false;
+
+        if (!this.findNode(openList, neighbor)) {
+          isOptimalScore = true;
+          neighbor.h = this.getH(neighbor, targetNode);
+          openList.push(neighbor);
+        } else if (gScore < neighbor.g) {
+          isOptimalScore = true;
+        }
+
+        if (isOptimalScore) {
+          neighbor.g = gScore;
+          neighbor.f = neighbor.g + neighbor.h;
+          neighbor.parent = currentNode;
+        }
+      }
+    }
+
+    // no path from start to target was found
+    return null;
+  }
+
+  _validateInputs(start, end) {
+    if (
+      !start ||
+      (start && start.length < 2) ||
+      !end ||
+      (end && end.length < 2)
+    ) {
+      throw Error(
+        'Should provide validat start and destination nodes in a [x1, y1], [x2, y2] formats.'
+      );
+    }
+  }
+
+  isObstacle(node, obstacleValue = 0) {
+    return node.value === obstacleValue;
+  }
+
+  findNode(list, node) {
+    for (let i = 0; i < list.length; i++) {
+      if (this.areNodesEqual(list[i], node)) {
+        return list[i];
+        break;
+      }
+    }
+
+    return null;
   }
 
   areNodesEqual(nodeA, nodeB) {
