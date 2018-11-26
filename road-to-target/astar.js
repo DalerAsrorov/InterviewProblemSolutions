@@ -51,6 +51,26 @@ module.exports = class AStar {
     const endNode = this.grid[y2][x2];
     let openList = [];
     let closeList = [];
+
+    // while (openList.length > 0) {
+
+    // }
+  }
+
+  areNodesEqual(nodeA, nodeB) {
+    return (
+      nodeA.position.x === nodeB.position.x &&
+      nodeA.position.y === nodeB.position.y
+    );
+  }
+
+  removeGraphNode(list, node) {
+    for (let i = 0; i < list.length; i++) {
+      if (this.areNodesEqual(list[i], node)) {
+        list.splice(i, 1);
+        break;
+      }
+    }
   }
 
   getH(nodeA, nodeB) {
