@@ -49,8 +49,22 @@ module.exports = class AStar {
     const [x2, y2] = destination;
     const startNode = this.grid[y1][x1];
     const endNode = this.grid[y2][x2];
+    let openList = [];
+    let closeList = [];
+  }
 
-    let neighbors = this.getNeighbors(startNode);
+  getH(nodeA, nodeB) {
+    const {
+      position: { x: x1, y: y1 }
+    } = nodeA;
+    const {
+      position: { x: x2, y: y2 }
+    } = nodeB;
+
+    const a2 = Math.pow(x1 - x2, 2);
+    const b2 = Math.pow(y1 - y2, 2);
+
+    return Math.sqrt(a2 + b2);
   }
 
   getNeighbors(node) {
