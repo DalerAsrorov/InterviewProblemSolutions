@@ -73,8 +73,8 @@ class AStar {
         this.grid[x][y] = new Node({
           value: originalGrid[x][y],
           position: {
-            x,
-            y
+            x: y,
+            y: x
           }
         });
       }
@@ -99,6 +99,19 @@ class AStar {
     return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
   }
 
+  getTrace(currentNode) {
+    let curr = currentNode;
+    let trace = [];
+
+    while (curr.parent) {
+      trace.push(curr);
+      curr = curr.parent;
+      console.log(curr.position);
+    }
+
+    return trace.reverse();
+  }
+
   // A-star searching algorithm
   search(start, end) {
     console.log(
@@ -107,14 +120,18 @@ class AStar {
       })`
     );
 
-    const startNode = this.grid[start[1]][start[0]];
-    const endNode = this.grid[end[1]][end[0]];
+    const [x1, y1] = start;
+    const [x2, y2] = end;
+    const startNode = this.grid[x1][y1];
+    const endNode = this.grid[x2][y2];
     let openList = [];
     let closedList = [];
 
     openList.push(startNode);
 
+    let counter = 0;
     while (openList.length > 0) {
+      counter++;
       let lowestFxIndex = 0;
 
       for (let i = 0; i < openList.length; i++) {
@@ -124,17 +141,9 @@ class AStar {
       }
       let currentNode = openList[lowestFxIndex];
 
-      // result was found
+      // found destination node
       if (this.areNodesEqual(currentNode, endNode)) {
-        let curr = currentNode;
-        let trace = [];
-
-        while (curr.parent) {
-          trace.push(curr);
-          curr = curr.parent;
-        }
-
-        return trace.reverse();
+        return this.getTrace(currentNode);
       }
 
       // proceed to search
@@ -143,11 +152,15 @@ class AStar {
 
       const neighbors = this.getNeighbors(currentNode);
 
+      console.log(neighbors.length, currentNode, counter);
+      if (counter > 2) {
+        return;
+      }
+
       for (let i = 0; i < neighbors.length; i++) {
         let neighbor = neighbors[i];
 
-        console.log({ neighbor });
-        // if node is not valid, skep to next neighbor
+        // if node is not valid, skip to next neighbor
         if (
           this.findGraphNode(closedList, neighbor) ||
           this.isNodeObstacle(neighbor)
@@ -159,7 +172,6 @@ class AStar {
         let isGScoreBest = false;
 
         if (!this.findGraphNode(openList, neighbor)) {
-          console.log('new', neighbor.position);
           isGScoreBest = true;
           neighbor.h = this.getEuclideanDistance(
             neighbor.position,
@@ -176,6 +188,7 @@ class AStar {
           neighbor.f = neighbor.g + neighbor.h;
         }
       }
+      // return;
     }
 
     return [];
@@ -187,10 +200,8 @@ class AStar {
 
   getNeighbors(currentNode) {
     const neighbors = [];
-    const { x, y } = currentNode.position;
+    const { x: y, y: x } = currentNode.position;
     const grid = this.grid;
-
-    currentNode.value = -1;
 
     // West
     if (grid[x - 1] && grid[x - 1][y]) {
@@ -216,14 +227,14 @@ class AStar {
       neighbors.push(grid[x - 1][y - 1]);
     }
     // Southeast
-    if (grid[x + 1] && grid[x + 1][y + 1]) {
+    if (grid[x + 1] && grid[x + 1][y - 1]) {
       neighbors.push(grid[x + 1][y - 1]);
     }
     // Northwest
     if (grid[x - 1] && grid[x - 1][y + 1]) {
       neighbors.push(grid[x - 1][y + 1]);
     }
-    // Southeast
+    // Northeast
     if (grid[x + 1] && grid[x + 1][y + 1]) {
       neighbors.push(grid[x + 1][y + 1]);
     }
@@ -264,4 +275,4 @@ class AStar {
 
 const astar = new AStar(grid);
 astar.printGrid();
-astar.search([1, 2], [3, 2]);
+astar.search([1, 2], [1, 5]);
