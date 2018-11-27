@@ -1,5 +1,9 @@
-const buildFlowGraph = require('./solution');
+const { buildFlowGraph, outputFlowGraph } = require('./solution');
 const data = require('./test-data');
 
-const result1 = buildFlowGraph(data.sample1);
-const result2 = buildFlowGraph(data.sample2);
+const graphOne = buildFlowGraph(data.sample1);
+const graphTwo = buildFlowGraph(data.sample2);
+
+// console.log(graphOne);
+outputFlowGraph(graphOne);
+// outputFlowGraph(graphTwo);

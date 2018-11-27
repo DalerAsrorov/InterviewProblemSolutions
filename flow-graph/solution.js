@@ -10,6 +10,7 @@ class Node {
 const buildGraph = (nodeList, tree = null) => {
   let root = null;
 
+  // if no tree with given root exists then build a new tree
   if (!tree) {
     if (nodeList.length > 1) {
       for (let i = 0; i < nodeList.length - 1; i++) {
@@ -22,7 +23,11 @@ const buildGraph = (nodeList, tree = null) => {
     }
 
     root = nodeList[0];
-  } else {
+  }
+  // Otherwise, if tree already exists, traverse through the
+  // new list and merge new nodes from that list with existing tree
+  // nodes and update the counter
+  else {
     root = tree;
 
     if (root.action === nodeList[0].action) {
@@ -50,6 +55,62 @@ const buildGraph = (nodeList, tree = null) => {
   return root;
 };
 
+const outputFlowGraph = flowGraph => {
+  let childrenKeys = Object.keys(flowGraph);
+
+  for (let i = 0; i < childrenKeys.length; i++) {
+    let childKey = childrenKeys[i];
+    let node = flowGraph[childKey];
+
+    printLevelOrder(node);
+    console.log('\t');
+  }
+};
+
+const attachCarrot = (str, carrotNum, char = '|---') =>
+  [...Array(carrotNum).keys()].reduce(accum => char + accum, str);
+
+const printLevelOrder = root => {
+  if (!root) {
+    return;
+  }
+
+  let queue = [root];
+  let carrotCount = 1;
+
+  while (queue.length > 0) {
+    let nodeCount = queue.length;
+
+    let str = '';
+    while (nodeCount > 0) {
+      let node = queue[0]; // peek
+      str += node.action;
+      queue.shift();
+
+      // iterate over all children
+      let childrenKeys = Object.keys(node.children);
+
+      if (childrenKeys.length > 0) {
+        childrenKeys.forEach(childKey => {
+          let child = node.children[childKey];
+
+          if (child && Object.keys(child).length > 0) {
+            queue.push(child);
+          }
+        });
+      }
+      nodeCount--;
+    }
+
+    console.log(attachCarrot(str, carrotCount));
+    carrotCount += 1;
+  }
+};
+
+/**
+ * Algorithm to build flow graph
+ * @param {Arra[]} dataList
+ */
 const buildFlowGraph = dataList => {
   let userMap = {};
 
@@ -76,4 +137,4 @@ const buildFlowGraph = dataList => {
   return treeMap;
 };
 
-module.exports = buildFlowGraph;
+module.exports = { buildFlowGraph, outputFlowGraph, printLevelOrder };
