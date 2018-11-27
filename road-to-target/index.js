@@ -48,7 +48,7 @@ const createGrid = (columns, rows, containerNode, obstacles) => {
 };
 
 // create a grid by default
-createGrid(5, 5, grid, 6);
+createGrid(5, 5, grid, 10);
 
 form.onsubmit = function(event) {
   event.preventDefault();
