@@ -63,7 +63,6 @@ const outputFlowGraph = flowGraph => {
     let node = flowGraph[childKey];
 
     printLevelOrder(node);
-    console.log('\t');
   }
 };
 
@@ -84,7 +83,11 @@ const printLevelOrder = root => {
     let str = '';
     while (nodeCount > 0) {
       let node = queue[0]; // peek
-      str += node.action;
+      let childStr = attachCarrot(
+        `${node.action} (${node.counter})`,
+        carrotCount
+      );
+      str += childStr;
       queue.shift();
 
       // iterate over all children
@@ -100,9 +103,10 @@ const printLevelOrder = root => {
         });
       }
       nodeCount--;
+      str += '\n';
     }
 
-    console.log(attachCarrot(str, carrotCount));
+    console.log(str);
     carrotCount += 1;
   }
 };
