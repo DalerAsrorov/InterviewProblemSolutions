@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Goal to Target</title>
+
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      #app {
+        margin: 10px;
+      }
+
+      .form {
+        text-align: center;
+      }
+
+      #grid {
+          display: flex;
+          flex-flow: row;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <section><div id="grid" /></section>
+      <section class="form">
+        <form id="rowColumnForm">
+            <div style="margin: 10px">
+                From (<input type="string" id="x1" name="x1" />,
+                <input type="string" id="y1" name="y1" />) to
+                (<input type="string" id="x2" name="x2" />,
+                <input type="string" id="y2" name="y2" />)
+                <button id="pathHandler">Find Path</button>
+            </div>
+          <input type="number" name="columns" />
+          <input type="number" name="rows" /> <input type="submit" />
+        </form>
+      </section>
+    </div>
+
+    <script src="./dist/bundle.js"></script>
+  </body>
+</html>
