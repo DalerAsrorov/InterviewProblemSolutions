@@ -45,6 +45,10 @@ class App extends React.PureComponent {
               items: data
             });
           });
+        } else {
+          this.setState({
+            items: []
+          });
         }
       }
     );
@@ -63,25 +67,26 @@ class App extends React.PureComponent {
         currentActiveIndex: activeIndex - 1
       });
     } else if (event.key === 'ArrowDown') {
+      // user pressed down arrow - increment
       if (items.length - 1 === activeIndex) {
         return;
       }
-      // user pressed down arrow - increment
+
       this.setState({
         currentActiveIndex: activeIndex + 1
       });
     } else if (event.key === 'Enter') {
-      console.log(items[activeIndex]);
-      console.log('submit');
+      console.log('submit', items[activeIndex]);
     }
   }
 
   render() {
-    const { items, currentActiveIndex } = this.state;
+    const { items, currentActiveIndex, searchInput } = this.state;
 
     return (
       <div className="App">
         <SearchInput
+          value={searchInput}
           ref={ref => (this.inputRef = ref)}
           onKeyDown={this.handleKeyDown.bind(this)}
           onChange={this.handleSearch.bind(this)}
