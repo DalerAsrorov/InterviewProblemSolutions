@@ -1,0 +1,22 @@
+{
+  "posts": [
+    { "id": 1, "title": "json-server", "author": "typicode" },
+    { "id": 2, "title": "javascript", "author": "daler" },
+    { "id": 3, "title": "britecharts", "author": "marcos" },
+    { "id": 4, "title": "react", "author": "abramov" },
+    { "id": 5, "title": "redux", "author": "abramov" },
+    { "id": 6, "title": "britecharts-react", "author": "marcos" },
+    { "id": 7, "title": "react-tabs", "author": "dublin" },
+    { "id": 8, "title": "eventbrite-js-sdk", "author": "daler" },
+    { "id": 9, "title": "react-waypoint-library", "author": "ivan" },
+    { "id": 10, "title": "some other library", "author": "typicode" },
+    { "id": 11, "title": "jelly fish butter", "author": "abramov" },
+    { "id": 12, "title": "lololol", "author": "abramov" },
+    { "id": 13, "title": "many ec2 instances haha", "author": "Rohan Shike" }
+  ],
+  "comments": [
+    { "id": 1, "body": "some comment", "postId": 1 },
+    { "id": 2, "body": "some comment", "postId": 2 }
+  ],
+  "profile": { "name": "typicode" }
+}

@@ -3,7 +3,7 @@
 // Example input:
 const INPUT = [
   [[1, 5], [6, 10], [12, 14]],
-  [[4, 5], [5, 9], [13, 16]],
+  [[4, 5], [6, 9], [13, 16]],
   [[11, 14]]
 ];
 
@@ -29,6 +29,7 @@ const constructSchedule = (scheduleSlots = [], totalHours = 24) => {
   scheduleList.sort(
     (aSlot, bSlot) => aSlot[0] - bSlot[0] || aSlot[1] - bSlot[1]
   );
+  console.log(scheduleList);
 
   let counter = 0;
   let slotsQueue = [];

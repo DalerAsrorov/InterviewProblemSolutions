@@ -1,0 +1,26 @@
+.App {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.search-input-wrapper {
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 10px 0px;
+}
+
+.search-input-wrapper input {
+  padding: 20px;
+  font-size: 26px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.list-holder {
+  padding: 0;
+}
+
+.result-item {
+  list-style-type: none;
+}
