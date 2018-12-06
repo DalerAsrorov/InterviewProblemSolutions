@@ -25,8 +25,6 @@ class Emitter {
       fn.call(null, ...paramArgs);
     });
   }
-
-  release() {}
 }
 
 let emitter = new Emitter();
