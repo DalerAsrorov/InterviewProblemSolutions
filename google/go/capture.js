@@ -4,9 +4,9 @@ const COLUMNS = 5;
 const TEST = [
   ['white', 'white', 'white', 'white', 'white'],
   ['black', 'white', 'white', 'white', 'black'],
-  ['black', 'white', 'white', 'white', 'black'],
-  ['black', 'white', 'white', 'white', 'white'],
-  ['white', 'white', 'white', 'white', 'white']
+  ['black', 'white', 'white', '11111', '11111'],
+  ['black', 'white', 'white', 'black', 'black'],
+  ['white', 'white', 'white', 'black', 'black']
 ];
 
 const generateGrid = (m, n) => {
@@ -40,46 +40,20 @@ const getNeighbors = coords => {
   const up = [x - 1, y];
   const down = [x + 1, y];
 
-  return {
-    up,
-    down,
-    left,
-    right
-  };
+  return [up, down, left, right];
 };
 
 const assignKey = (i, j) => `${i}-${j}`;
 
-const capture = (grid, row, column) => {
-  const val = grid[column][row]; // (column, row) = (x, y)
-  let marked = {};
-  let limit = 4;
+const MAX = 4;
 
-  if (val === 'black') {
-    let queue = [[column, row]];
+const wasVisited = (visitedList, coords) => {
+  if (coords) {
+    const [x2, y2] = coords;
+    for (let i = 0; i < visitedList.length; i++) {
+      const [x1, y1] = visitedList[i];
 
-    while (queue.length !== 0) {
-      let [x, y] = queue.shift();
-
-      marked[assignKey(x, y)] = grid[x][y];
-      const neighbors = getNeighbors([x, y]);
-
-      Object.keys(neighbors).forEach(neighborDir => {
-        const [x, y] = neighbors[neighborDir];
-        const val = grid[x][y];
-
-        if (!marked[assignKey(x, y)]) {
-          if (!grid[x][y] || grid[x][y] === 'white') {
-            limit = limit - 1;
-          } else {
-            queue.push([x, y]);
-          }
-        }
-
-        marked[assignKey(x, y)] = grid[x][y];
-      });
-
-      if (limit === 0) {
+      if (x1 == x2 && y1 == y2) {
         return true;
       }
     }
@@ -88,11 +62,49 @@ const capture = (grid, row, column) => {
   return false;
 };
 
+const capture = (grid, row, column) => {
+  let marked = {};
+  let stack = [[column, row]];
+  let visitedList = [];
+  let remaining = MAX;
+
+  while (stack.length > 0) {
+    let [x, y] = stack.pop();
+    let neighbors = getNeighbors([x, y]);
+    remaining = MAX;
+    visitedList.push([x, y]);
+
+    neighbors.forEach(neighbor => {
+      const neighborValue =
+        grid[neighbor[0]] && grid[neighbor[0]][neighbor[1]]
+          ? grid[neighbor[0]][neighbor[1]]
+          : null;
+
+      if (
+        !neighborValue ||
+        neighborValue === 'white' ||
+        (neighborValue === 'black' && wasVisited(visitedList, neighbor))
+      ) {
+        remaining -= 1;
+      } else if (
+        neighborValue === 'black' &&
+        !wasVisited(visitedList, neighbor)
+      ) {
+        stack.push([neighbor[0], neighbor[1]]);
+      }
+
+      visitedList.push(neighbor);
+    });
+  }
+
+  return remaining === 0;
+};
+
 // const grid = generateGrid(ROWS, COLUMNS);
 const grid = TEST;
 
 // assignRandomBlackTiles(grid, ROWS, COLUMNS);
 
-let result = capture(grid, 4, 1);
+let result = capture(grid, 3, 3);
 
 console.log(grid, result);
