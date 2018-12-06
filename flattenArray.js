@@ -1,30 +1,31 @@
 const flattenArray = array => {
-  let stack = [array[0]];
   let result = [];
+  let queue = [];
 
-  while (stack.length > 0) {
-    let nextArray = stack.pop();
+  for (let i = 0; i < array.length; i++) {
+    const elem = array[i];
+    queue = [elem];
 
-    if (nextArray instanceof Array) {
-      for (let i = 1; i < array.length; i++) {
-        let element = array[i];
+    while (queue.length > 0) {
+      const item = queue.shift();
 
-        if (element instanceof Array) {
-          stack.push(element);
-        } else {
-          result.push(element);
-        }
+      if (Array.isArray(item)) {
+        queue = [...item, ...queue];
+      } else {
+        result.push(item);
       }
-    } else {
-      result = [...result, nextArray];
     }
-    console.log(stack);
-    // return;
   }
-
-  console.log(result);
 
   return result;
 };
 
-let result = flattenArray([2, [1, 2], [3, 4], [5, 6], [{}, [7, 8]]]);
+let result = flattenArray([
+  1,
+  [2, 3],
+  [4, 5],
+  [6, 7],
+  [{}, [[[8, 9], [[10, 11]]]], [12, 13]]
+]);
+
+console.log({ result });
