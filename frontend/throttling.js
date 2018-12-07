@@ -25,11 +25,21 @@ const throttledByNumberOfEvents = (n, fn) => {
 
   return (...args) => {
     total++;
-    console.log({ n, total });
     if (n - total > 0) {
       return;
     }
     total = 0;
     return fn(...args);
+  };
+};
+
+// 2. Trigger by number of events per current time
+const throttledByRate = (fn, nEvents, time) => {
+  let countEvents = 0;
+
+  return (...args) => {
+    countEvents += 1;
+
+    if (countEvents) return fn(...args);
   };
 };

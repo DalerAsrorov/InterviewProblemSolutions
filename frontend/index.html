@@ -18,8 +18,11 @@
     <div id="throttleDelay" class="throttle"></div>
     <br />
     <div id="throttleEventNum" class="throttle"></div>
+    <br />
+    <input type="text" id="search" />
 
     <script src="./throttling.js"></script>
+    <script src="./debounce.js"></script>
     <script>
       let throttleDelay = document.getElementById('throttleDelay');
       let throttleN = document.getElementById('throttleEventNum');
@@ -29,6 +32,14 @@
 
       throttleDelay.addEventListener('mousemove', tHandler);
       throttleN.addEventListener('mousemove', tHandler2);
+
+      let search = document.getElementById('search');
+
+      const inputHandler = event => {
+        console.log(event.target.value);
+      };
+
+      search.addEventListener('input', debounced(3000, inputHandler));
     </script>
   </body>
 </html>
