@@ -3,6 +3,20 @@ import logo from './logo.svg';
 import { getResults } from './api';
 import './App.css';
 
+const debounced = (fn, n = 2000) => {
+  let timeoutId;
+  return (...args) => {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+    timeoutId = setTimeout(() => {
+      console.log('made search');
+      fn(...args);
+      timeoutId = null;
+    }, n);
+  };
+};
+
 const SearchInput = React.forwardRef((props, ref) => {
   return (
     <div className="search-input-wrapper">
@@ -24,34 +38,34 @@ const ResultItem = ({ id, title, author, isActive }) => {
 };
 
 class App extends React.PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.handleSearch = debounced(this.handleSearch.bind(this), 1200);
+  }
+
   state = {
     searchInput: '',
     currentActiveIndex: 0,
     items: []
   };
 
-  handleSearch(event) {
+  handleInput(event) {
     const nextValue = event.currentTarget.value;
-    this.setState(
-      (prevState, props) => {
-        return { searchInput: nextValue, currentActiveIndex: 0 };
-      },
-      () => {
-        const { searchInput } = this.state;
+    this.setState((prevState, props) => ({
+      searchInput: nextValue,
+      currentActiveIndex: 0
+    }));
+  }
 
-        if (searchInput && searchInput.length > 1) {
-          getResults(searchInput).then(data => {
-            this.setState({
-              items: data
-            });
-          });
-        } else {
-          this.setState({
-            items: []
-          });
-        }
-      }
-    );
+  handleSearch(event) {
+    const { searchInput } = this.state;
+
+    getResults(searchInput).then(data => {
+      this.setState({
+        items: data
+      });
+    });
   }
 
   handleKeyDown(event) {
@@ -90,6 +104,7 @@ class App extends React.PureComponent {
           ref={ref => (this.inputRef = ref)}
           onKeyDown={this.handleKeyDown.bind(this)}
           onChange={this.handleSearch.bind(this)}
+          onInput={this.handleInput.bind(this)}
         />
         <ul className="list-holder">
           {Array.isArray(items) &&

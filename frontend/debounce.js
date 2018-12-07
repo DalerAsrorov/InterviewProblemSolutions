@@ -11,7 +11,7 @@ const debounced = (delay, fn) => {
       clearTimeout(timerId);
     }
     timerId = setTimeout(() => {
-      fn(...args);
+      fn.call(this, ...args);
       timerId = null;
     }, delay);
   };
