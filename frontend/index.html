@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Throttle</title>
+
+    <style>
+      .throttle {
+        width: 400px;
+        height: 400px;
+        background: lightsalmon;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="throttleDelay" class="throttle"></div>
+    <br />
+    <div id="throttleEventNum" class="throttle"></div>
+
+    <script src="./throttling.js"></script>
+    <script>
+      let throttleDelay = document.getElementById('throttleDelay');
+      let throttleN = document.getElementById('throttleEventNum');
+      let handler = () => console.log('hi');
+      let tHandler = throttledByDelay(5000, handler);
+      let tHandler2 = throttledByNumberOfEvents(20, () => console.log('bye'));
+
+      throttleDelay.addEventListener('mousemove', tHandler);
+      throttleN.addEventListener('mousemove', tHandler2);
+    </script>
+  </body>
+</html>
