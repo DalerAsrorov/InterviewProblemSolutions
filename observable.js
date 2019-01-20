@@ -16,18 +16,18 @@ class Observable {
             }
         })
     }
-}
 
-Observable.from = (values) => {
-    return new Observable((observer) => {
-        values.forEach((value) => observer.next(value));
+    static from(values) {
+        return new Observable((observer) => {
+            values.forEach((value) => observer.next(value));
 
-        observer.complete();
+            observer.complete();
 
-        return () => {
-            console.log('Observable.from: unsubscribed');
-        }
-    });
+            return () => {
+                console.log('Observable.from: unsubscribed');
+            }
+        });
+    }
 }
 
 class Observer {
