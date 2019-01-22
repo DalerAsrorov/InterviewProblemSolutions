@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Hit Logging</title>
+</head>
+<body>
+    <div class="logger">
+        <h1>Hit logger</h1>
+        <p style="font: bold; font-size: 24px;" id="hitCounter"></p>
+        <div id="logs"></div>
+    </div>
+
+    <script type="text/javascript">
+        const URL = 'http://localhost:8080/hits';
+        let hitCounter = document.getElementById('hitCounter');
+        let logPrinter = document.getElementById('logs');
+        const requestParams = {
+            credentials: 'same-origin',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            }
+        };
+
+        function initLoad() {
+            addCounter().then(() => getCounter());
+
+            setInterval(() => {
+                getCounter();
+            }, 5000);
+        }
+
+        function findLatestHitsByMinutes(hits, minutes) {
+            const mins = 60 * minutes * 1000;
+            const currDateTime = Date.now();
+
+            let latestHits = hits.filter((hit) => (
+                currDateTime - new Date(hit) <= mins
+            ));
+
+            console.log(hits.length);
+            console.log(latestHits.length);
+
+            return latestHits;
+        }
+
+        // make a request to the server and return
+        // that information to the page
+        function addCounter() {
+            return fetch(URL, {
+                method: 'post',
+                ...requestParams,
+            })
+        }
+
+        function printLogs(latestLogs) {
+            let str = '';
+
+            latestLogs.forEach(log => {
+                str += `<p>${new Date(log).toLocaleString()}</p>`;
+            });
+
+            logPrinter.innerHTML = str;
+        }
+
+        function getCounter() {
+            return fetch(URL, requestParams)
+                .then(response => response.json())
+                .then(data => {
+                    printLogs(findLatestHitsByMinutes(data.hits, 2));
+                    hitCounter.innerHTML = data.hits.length
+                });
+        }
+
+        // start requesting hit counter data
+        initLoad();
+    </script>
+</body>
+</html>
