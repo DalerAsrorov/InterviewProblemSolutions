@@ -1,5 +1,3 @@
-
-
 class Observable {
     constructor(subscribe) {
         this._subscribe = subscribe;
