@@ -1,15 +1,19 @@
-function findMinValue(arr) {
-    let min = Infinity;
-	for (let i = 0; i < arr.length; i++) {
-		if (arr[i] < min) {
-			min = arr[i];
+let nested = [1, 2, [2, 3], [4, 5], [{}, [6, [7]]]];
+
+function flattenArray(array) {
+    let flattened = [];
+
+    while(array.length > 0) {
+        let elem = array.shift();
+
+        if (Array.isArray(elem)) {
+            array = [...elem, ...array];
+        } else {
+            flattened.push(elem);
         }
     }
-    return min;
+
+    return flattened;
 }
 
-
-let result = findMinValue([1, 4, 3, 12, 5, 7, 3]);
-
-console.log({result});
-
+console.log(flattenArray(nested));
